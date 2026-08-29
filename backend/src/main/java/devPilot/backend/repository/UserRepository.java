@@ -7,5 +7,5 @@ import java.util.UUID;
 import devPilot.backend.entity.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
-        Optional<User> findByGithubId(String githubId);
+        Optional<User> findByGithubId(Long githubId);
 }
