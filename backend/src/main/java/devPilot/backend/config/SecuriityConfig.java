@@ -27,11 +27,12 @@ import lombok.RequiredArgsConstructor;
 public class SecuriityConfig {
 
     private final OAuth2UserService<OAuth2UserRequest, OAuth2User> gitHubOAuth2UserService;
-    private final AuthenticationSuccessHandler oauth2SuccessHandler;
-    private final AuthenticationFailureHandler oauth2FailureHandler;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            AuthenticationSuccessHandler oauth2SuccessHandler,
+            AuthenticationFailureHandler oauth2FailureHandler) throws Exception {
         http
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())

@@ -18,8 +18,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final TextEncryptor textEncryptor;
 
-
-
     @Transactional(readOnly = true)
     public User requireById(UUID id) {
         return userRepository.findById(id)
