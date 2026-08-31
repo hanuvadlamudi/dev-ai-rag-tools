@@ -39,6 +39,12 @@ const LoginContent = () => {
     const next = params.get("next") || "/dashboard";
     const { data: user, isLoading } = useCurrentUser();
 
+    useEffect(() => {
+        if (!isLoading && user) {
+          router.replace(next.startsWith("/") ? next : "/dashboard");
+        }
+    }, [user, isLoading, next, router]);
+
     if(isLoading || user) {
         return <LoginLoading />
     }
