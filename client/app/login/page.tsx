@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getGithubLoginUrl } from "@/lib/api";
+import { useCurrentUser } from "@/hooks/use-auth";
 
 
 function LoginLoading(){
@@ -36,9 +37,7 @@ const LoginContent = () => {
     const router = useRouter();
     const error = params.get("error");
     const next = params.get("next") || "/dashboard";
-
-    const user = null;
-    const isLoading = false;
+    const { data: user, isLoading } = useCurrentUser();
 
     if(isLoading || user) {
         return <LoginLoading />
