@@ -1,8 +1,16 @@
+import { AppShell } from '@/components/layout/app-shell'
+import { RequireAuth } from '@/components/providers/require-auth'
 import React from 'react'
 
 const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
+    <RequireAuth>
+      <AppShell hideHeader>
+        <div>
+          <RepoDashboard />
+        </div>
+      </AppShell>
+    </RequireAuth>
   )
 }
 
