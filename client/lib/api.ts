@@ -1,4 +1,4 @@
-export type IndexStatus = "PENDING" | "Indexing" | "COMPLETED" | "FAILED";
+export type IndexStatus = "PENDING" | "INDEXING" | "COMPLETED" | "FAILED";
 
 export type Repository = {
   id: string;
