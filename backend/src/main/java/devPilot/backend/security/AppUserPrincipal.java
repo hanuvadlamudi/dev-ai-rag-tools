@@ -3,6 +3,7 @@ package devPilot.backend.security;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,10 @@ public class AppUserPrincipal implements OAuth2User {
     public AppUserPrincipal(User user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
+    }
+
+    public UUID getId() {
+        return user.getId();
     }
 
     public User getUser() {
