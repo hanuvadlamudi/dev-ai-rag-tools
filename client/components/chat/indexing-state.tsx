@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { AlertCircle, Loader2, RotateCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -22,12 +23,23 @@ export function IndexingState({
   status?: IndexStatusResponse;
 }) {
   const indexMutation = useStartIndexing();
+  const autoStartRef = useRef(false);
   const filesProcessed = status?.filesProcessed ?? repo.filesProcessed;
   const filesTotal = status?.filesTotal ?? repo.filesTotal;
   const chunkCount = status?.chunkCount ?? repo.chunkCount;
   const progress = getRepoProgress({ filesProcessed, filesTotal });
   const indexStatus = status?.indexStatus ?? repo.indexStatus;
   const errorMessage = status?.errorMessage ?? repo.errorMessage;
+
+  useEffect(() => {
+    if (indexStatus !== "PENDING" || autoStartRef.current) return;
+    autoStartRef.current = true;
+    indexMutation.mutate(repo.id, {
+      onError: () => {
+        autoStartRef.current = false;
+      },
+    });
+  }, [indexStatus, indexMutation, repo.id]);
 
   if (indexStatus === "FAILED") {
     return (

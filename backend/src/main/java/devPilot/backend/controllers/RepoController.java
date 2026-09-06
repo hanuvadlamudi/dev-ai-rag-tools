@@ -17,7 +17,7 @@ import devPilot.backend.dto.RepositoryResponse;
 import devPilot.backend.entity.Repository;
 import devPilot.backend.security.CurrentUser;
 import devPilot.backend.services.RepoService;
-// import devPilot.backend.services.indexing.IndexingService;
+import devPilot.backend.services.indexing.IndexingService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,7 +27,7 @@ public class RepoController {
 
     private final CurrentUser currentUser;
     private final RepoService repoService;
-    // private final IndexingService indexingService;
+    private final IndexingService indexingService;
 
     @GetMapping
     public List<RepositoryResponse> list(
@@ -48,9 +48,8 @@ public class RepoController {
     @PostMapping("/{id}/index")
     public ResponseEntity<RepositoryResponse> index(@PathVariable UUID id) {
         UUID userId = currentUser.require().getId();
-        Repository repo = repoService.requireOwned(id, userId);
-        // Repository repo = indexingService.startIndexing(id, userId);
-        // indexingService.indexAsync(id, userId);
+        Repository repo = indexingService.startIndexing(id, userId);
+        indexingService.indexAsync(id, userId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(repoService.toResponse(repo));
     }
 
