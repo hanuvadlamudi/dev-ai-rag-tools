@@ -27,6 +27,7 @@ Repository: [github.com/hanuvadlamudi/dev-ai-rag-tools](https://github.com/hanuv
 - [Indexing and RAG details](#indexing-and-rag-details)
 - [Security notes](#security-notes)
 - [Development](#development)
+- [Deploy on Vercel](#deploy-on-vercel)
 - [Known limitations](#known-limitations)
 - [License](#license)
 
@@ -467,6 +468,36 @@ Useful backend packages when you extend the product:
 | `devPilot.backend.services.ai` | Retrieval, prompt, SSE |
 | `devPilot.backend.services.github` | GitHub REST + pacing |
 | `devPilot.backend.security` | Principal + OAuth user upsert |
+
+---
+
+## Deploy on Vercel
+
+The **Next.js client** can be hosted on [Vercel](https://vercel.com/hanuvadlamudis-projects). The Spring Boot API, PostgreSQL, and pgvector **cannot** run on Vercel — they need a JVM + Postgres host (Railway, Render, Fly.io, or a VM). The Vercel site talks to that API via `NEXT_PUBLIC_API_BASE_URL`.
+
+### Import the GitHub repo
+
+1. Open [vercel.com/hanuvadlamudis-projects](https://vercel.com/hanuvadlamudis-projects) → **Add New** → **Project**.
+2. Import `hanuvadlamudi/dev-ai-rag-tools`.
+3. Set **Root Directory** to `client` (this is a monorepo).
+4. Framework Preset: **Next.js**.
+5. Add environment variable:
+   - `NEXT_PUBLIC_API_BASE_URL` = your public backend URL (no trailing slash), e.g. `https://api.example.com`
+6. Deploy.
+
+`client/vercel.json` is already in the repo. After the first import, every push to the connected branch redeploys.
+
+### After the frontend is live
+
+Point the backend at the Vercel origin and GitHub OAuth at both URLs:
+
+| Variable | Example |
+|---|---|
+| `FRONTEND_URL` | `https://your-app.vercel.app` |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,https://your-app.vercel.app` |
+| GitHub OAuth callback | `https://<backend-host>/login/oauth2/code/github` |
+
+Without a hosted backend, the Vercel UI will load but login/index/chat will fail (the browser cannot reach `localhost:8080`).
 
 ---
 
