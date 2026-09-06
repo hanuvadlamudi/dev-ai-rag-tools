@@ -18,10 +18,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DevPilot",
+  applicationName: "DevPilot",
+  title: {
+    default: "DevPilot",
+    template: "%s · DevPilot",
+  },
   description: "Connect GitHub, index a repository, and chat with your codebase.",
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/icon.svg?v=2", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png?v=2", sizes: "180x180" }],
   },
 };
 
