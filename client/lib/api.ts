@@ -117,7 +117,8 @@ export const api = {
       apiFetch<void>("/api/auth/logout", {
         method: "POST",
     }),
-    listRepos: () => apiFetch<Repository[]>("/api/repos?refresh=${refresh}"),
+    listRepos: (refresh = false) =>
+      apiFetch<Repository[]>(`/api/repos?refresh=${refresh}`),
     getRepo: (id: string) => apiFetch<Repository>(`/api/repos/${id}`),
     startIndex: (id: string) => apiFetch<Repository>(`/api/repos/${id}/index`, { method: "POST" }),
     indexStatus: (id: string) => apiFetch<IndexStatusResponse>(`/api/repos/${id}/status`),
